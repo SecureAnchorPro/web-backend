@@ -1,0 +1,21 @@
+const express = require('express');
+const app = express();
+const sessionConfig = require('./config/sessionConfig');
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(require('morgan')('dev')); // Use morgan logger in development
+} else if (process.env.NODE_ENV === 'production') {
+  app.use(require('helmet')()); // Apply security headers in production
+  app.use(require('compression')()); // Enable response compression in production
+}
+
+// Middleware
+app.use(session(sessionConfig));
+
+// Define routes, error handling, etc.
+const userRoutes = require('./routes/userRoutes');
+app.use('/users', userRoutes);
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
