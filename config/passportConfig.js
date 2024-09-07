@@ -12,7 +12,7 @@ module.exports = (app) => {
 
     // Use Jwt Strategy
     require('../strategies/jwtStrategy');
-    
+
     // Add other strategies here as needed
 
     passport.serializeUser((user, done) => {

@@ -12,16 +12,34 @@ const options = {
     // audience: '', // Uncomment and set if required
 };
 
+// Get the Redis client from sessionConfig
+const redisClient = sessionConfig.store.client;
+
 passport.use(new JwtStrategy(options, async (jwt_payload, done) => {
     try {
-        const [user] = await mysqlconfig.query(`
-            SELECT * FROM Users WHERE user_id = ?
-        `, [jwt_payload.id]);
 
-        if (user.length > 0) {
-            return done(null, user[0]); // Return the user object
+        const userKey = `LockBoxPro_Vault:${jwt_payload.id}`;
+
+        // Await the result from Redis
+        const userExistsInSession = await redisClient.get(userKey);
+        if (userExistsInSession) {
+            // Parse the user data from Redis
+            const user = JSON.parse(userExistsInSession);
+            return done(null, user);
         } else {
-            return done(null, false); // No user found
+
+            // Query MySQL for user data
+            const [user] = await mysqlconfig.query(`
+                SELECT * FROM Users WHERE user_id = ?
+            `, [jwt_payload.id]);
+
+            if (user.length > 0) {
+                // Store the user data in Redis for future requests
+                await redisClient.set(userKey, JSON.stringify(user[0].user_id));
+                return done(null, user[0].user_id); // Return the user object
+            } else {
+                return done(null, false); // No user found
+            }
         }
     } catch (err) {
         return done(err, false); // Error occurred

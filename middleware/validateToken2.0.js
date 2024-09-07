@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const passport = require('passport');
 const validateToken2 = asyncHandler((req,res,next)=>{
+    // console.log(req.headers);
     passport.authenticate('jwt',(err,user,info)=>{
         if (!user) {
             res.status(401);
@@ -10,6 +11,7 @@ const validateToken2 = asyncHandler((req,res,next)=>{
         if(err) return next(err);
 
         req.user = user; // Attach the authenticated user to the request object
+
         next(); // Proceed to the next middleware or route handler
     })(req,res,next);
 })

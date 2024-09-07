@@ -2,10 +2,11 @@ const asyncHandler = require("express-async-handler");
 const mysqlconnection = require("../../../config/mysqlConfig");
 
 const showAllActTitle = asyncHandler(async (req, res) => {
-    const currentUser_id = req.user.user_id;
+    const {category} = req.body;
+    const currentUser_id = req.user;
     const [allActTitle] = await mysqlconnection.query(`
-        SELECT * FROM Account WHERE user_id = ?
-    `, [currentUser_id]);
+        SELECT * FROM Account WHERE user_id = ? AND name_of_category = ?
+    `, [currentUser_id,category]);
 
     if (allActTitle && allActTitle.length > 0) {
         res.status(200).json({

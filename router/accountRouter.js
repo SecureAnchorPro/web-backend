@@ -4,15 +4,15 @@ const router = express.Router();
 // const validateToken = require("../middleware/validateToken");
 const validateToken2 = require('../middleware/validateToken2.0');
 
-const CreateActTitle = require("../service/Account/accountTitle/createActTitle");
-const deleteActTitle = require("../service/Account/accountTitle/deleteActTite");
-const showAllActTitle = require("../service/Account/accountTitle/showAllActTitle");
-const upadateTitleName = require("../service/Account/accountTitle/upadateTitleName");
+const CreateActTitle = require("../controller/Account/accountTitle/createActTitle");
+const deleteActTitle = require("../controller/Account/accountTitle/deleteActTite");
+const showAllActTitle = require("../controller/Account/accountTitle/showAllActTitle");
+const upadateTitleName = require("../controller/Account/accountTitle/upadateTitleName");
 
-const AddActDetail = require("../service/Account/accountDetail/addActDetail");
-const deleteActDetail = require("../service/Account/accountDetail/deleteActDetail");
-const showAllActDetail = require("../service/Account/accountDetail/showAllActDetail");
-const UpdateActDetail = require("../service/Account/accountDetail/updateActDetail");
+const AddActDetail = require("../controller/Account/accountDetail/addActDetail");
+const deleteActDetail = require("../controller/Account/accountDetail/deleteActDetail");
+const showAllActDetail = require("../controller/Account/accountDetail/showAllActDetail");
+const UpdateActDetail = require("../controller/Account/accountDetail/updateActDetail");
 
 
 // --------------------------Account-Tite---------------------------------------------//

@@ -16,14 +16,13 @@ module.exports = passport.use(new LocalStrategy(
             if (!users || users.length === 0) {
                 return done(null, false, { message: 'Incorrect email.' });
             }
-
+            
             const user = users[0];
-
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return done(null, false, { message: 'Incorrect password.' });
             }
-
+            
             const jwtToken = jwt.sign(
                 { id: user.user_id },
                 process.env.TOKEN_SECRET,
@@ -32,6 +31,7 @@ module.exports = passport.use(new LocalStrategy(
 
             return done(null, { jwtToken, id: user.user_id });
         } catch (err) {
+            console.error('Error in JWT strategy:', err); // Debugging line
             return done(err);
         }
     }

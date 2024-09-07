@@ -4,19 +4,19 @@ const mysqlconnection = require("../../../config/mysqlConfig");
 const deleteActTitle = asyncHandler(async (req, res) => {
     const { act_id } = req.body;
 
-    const [deleterow] = await mysqlconnection.query(`
+    const [deleteRow] = await mysqlconnection.query(`
         DELETE FROM Account WHERE act_id = ?
     `, [act_id]);
 
     // Check if any rows were affected 
-    if (deleterow.affectedRows === 0) {
+    if (deleteRow.affectedRows === 0) {
         res.status(404);
         throw new Error("Account not found!");
     }
 
-    if (deleterow) {
+    if (deleteRow) {
         res.status(200).json({
-            message: "Successfully deleted account and associated details",
+            message: "Successfully deleted",
         });
     }
     else {
