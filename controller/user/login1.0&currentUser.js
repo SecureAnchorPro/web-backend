@@ -39,7 +39,8 @@ const currentUser = asyncHandler(async (req, res) => {
         phone_number: decryptedPhone_number,
         profile_url: image_url,
         created_at: user[0].created_at,
-        updated_at: user[0].updated_at
+        updated_at: user[0].updated_at,
+        publicId:user[0].publicIdFromCloudinary
     }
     res.status(200).send({
         message: "Profile updated successfully",
